@@ -1,19 +1,19 @@
 import { atom } from "jotai";
-import { 
+import {
   getDefaultSettings,
   getDefaultHabitsData,
   getDefaultCoinsData,
-  getDefaultWishlistData
+  getDefaultWishlistData,
 } from "./types";
-import { 
-  getTodayInTimezone, 
-  isSameDate, 
+import {
+  getTodayInTimezone,
+  isSameDate,
   t2d,
   calculateCoinsEarnedToday,
   calculateTotalEarned,
   calculateTotalSpent,
   calculateCoinsSpentToday,
-  calculateTransactionsToday
+  calculateTransactionsToday,
 } from "@/lib/utils";
 
 export const settingsAtom = atom(getDefaultSettings());
@@ -25,7 +25,10 @@ export const wishlistAtom = atom(getDefaultWishlistData());
 export const coinsEarnedTodayAtom = atom((get) => {
   const coins = get(coinsAtom);
   const settings = get(settingsAtom);
-  return calculateCoinsEarnedToday(coins.transactions, settings.system.timezone);
+  return calculateCoinsEarnedToday(
+    coins.transactions,
+    settings.system.timezone,
+  );
 });
 
 // Derived atom for total earned
@@ -51,5 +54,8 @@ export const coinsSpentTodayAtom = atom((get) => {
 export const transactionsTodayAtom = atom((get) => {
   const coins = get(coinsAtom);
   const settings = get(settingsAtom);
-  return calculateTransactionsToday(coins.transactions, settings.system.timezone);
+  return calculateTransactionsToday(
+    coins.transactions,
+    settings.system.timezone,
+  );
 });

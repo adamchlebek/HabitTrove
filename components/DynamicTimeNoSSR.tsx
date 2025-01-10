@@ -1,8 +1,8 @@
-import dynamic from 'next/dynamic'
-import { DynamicTime } from './DynamicTime'
+import dynamic from "next/dynamic";
+import { DynamicTime } from "./DynamicTime";
 
 const DynamicTimeNoSSR = dynamic(() => Promise.resolve(DynamicTime), {
-  ssr: false
-})
+  ssr: false,
+});
 
-export { DynamicTimeNoSSR }
+export { DynamicTimeNoSSR };

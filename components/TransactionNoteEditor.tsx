@@ -1,72 +1,72 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Check, Loader2, Pencil, Trash2, X } from 'lucide-react'
-import { toast } from '@/hooks/use-toast'
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Check, Loader2, Pencil, Trash2, X } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface TransactionNoteEditorProps {
-  transactionId: string
-  initialNote?: string
-  onSave: (id: string, note: string) => Promise<void>
-  onDelete: (id: string) => Promise<void>
+  transactionId: string;
+  initialNote?: string;
+  onSave: (id: string, note: string) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
 }
 
 export function TransactionNoteEditor({
   transactionId,
-  initialNote = '',
+  initialNote = "",
   onSave,
-  onDelete
+  onDelete,
 }: TransactionNoteEditorProps) {
-  const [isEditing, setIsEditing] = useState(false)
-  const [noteText, setNoteText] = useState(initialNote)
-  const [isSaving, setIsSaving] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
+  const [noteText, setNoteText] = useState(initialNote);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async () => {
-    const trimmedNote = noteText.trim()
+    const trimmedNote = noteText.trim();
     if (trimmedNote.length > 200) {
       toast({
-        title: 'Note too long',
-        description: 'Notes must be less than 200 characters',
-        variant: 'destructive'
-      })
-      return
+        title: "Note too long",
+        description: "Notes must be less than 200 characters",
+        variant: "destructive",
+      });
+      return;
     }
 
-    setIsSaving(true)
+    setIsSaving(true);
     try {
-      await onSave(transactionId, trimmedNote)
-      setIsEditing(false)
+      await onSave(transactionId, trimmedNote);
+      setIsEditing(false);
     } catch (error) {
       toast({
-        title: 'Error saving note',
-        description: 'Please try again',
-        variant: 'destructive'
-      })
+        title: "Error saving note",
+        description: "Please try again",
+        variant: "destructive",
+      });
       // Revert to initial value on error
-      setNoteText(initialNote)
+      setNoteText(initialNote);
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   const handleDelete = async () => {
-    setIsSaving(true)
+    setIsSaving(true);
     try {
-      await onDelete(transactionId)
-      setNoteText(initialNote)
-      setIsEditing(false)
+      await onDelete(transactionId);
+      setNoteText(initialNote);
+      setIsEditing(false);
     } catch (error) {
       toast({
-        title: 'Error deleting note',
-        description: 'Please try again',
-        variant: 'destructive'
-      })
+        title: "Error deleting note",
+        description: "Please try again",
+        variant: "destructive",
+      });
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   if (isEditing) {
     return (
@@ -87,14 +87,18 @@ export function TransactionNoteEditor({
             className="text-green-600 dark:text-green-500 hover:text-green-700 dark:hover:text-green-400 transition-colors"
             title="Save note"
           >
-            {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+            {isSaving ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Check className="h-4 w-4" />
+            )}
           </Button>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => {
-              setNoteText(initialNote)
-              setIsEditing(false)
+              setNoteText(initialNote);
+              setIsEditing(false);
             }}
             disabled={isSaving}
             className="text-red-600 dark:text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors"
@@ -111,12 +115,16 @@ export function TransactionNoteEditor({
               className="text-gray-600 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-400 transition-colors"
               title="Delete note"
             >
-              {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              {isSaving ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4" />
+              )}
             </Button>
           )}
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -134,5 +142,5 @@ export function TransactionNoteEditor({
         <Pencil className="h-4 w-4" />
       </button>
     </div>
-  )
+  );
 }

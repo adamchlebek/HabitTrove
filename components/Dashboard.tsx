@@ -1,20 +1,20 @@
-'use client'
+"use client";
 
-import { useAtom } from 'jotai'
-import { wishlistAtom, habitsAtom, settingsAtom, coinsAtom } from '@/lib/atoms'
-import CoinBalance from './CoinBalance'
-import DailyOverview from './DailyOverview'
-import HabitStreak from './HabitStreak'
-import { useHabits } from '@/hooks/useHabits'
+import { useAtom } from "jotai";
+import { wishlistAtom, habitsAtom, settingsAtom, coinsAtom } from "@/lib/atoms";
+import CoinBalance from "./CoinBalance";
+import DailyOverview from "./DailyOverview";
+import HabitStreak from "./HabitStreak";
+import { useHabits } from "@/hooks/useHabits";
 
 export default function Dashboard() {
-  const [habitsData] = useAtom(habitsAtom)
-  const habits = habitsData.habits
-  const [settings] = useAtom(settingsAtom)
-  const [coins] = useAtom(coinsAtom)
-  const coinBalance = coins.balance
-  const [wishlist] = useAtom(wishlistAtom)
-  const wishlistItems = wishlist.items
+  const [habitsData] = useAtom(habitsAtom);
+  const habits = habitsData.habits;
+  const [settings] = useAtom(settingsAtom);
+  const [coins] = useAtom(coinsAtom);
+  const coinBalance = coins.balance;
+  const [wishlist] = useAtom(wishlistAtom);
+  const wishlistItems = wishlist.items;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -32,6 +32,5 @@ export default function Dashboard() {
         {/* <HabitHeatmap habits={habits} /> */}
       </div>
     </div>
-  )
+  );
 }
-

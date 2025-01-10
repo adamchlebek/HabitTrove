@@ -4,17 +4,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface ConfirmDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  onConfirm: () => void
-  title: string
-  message: string
-  confirmText?: string
-  cancelText?: string
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
 }
 
 export default function ConfirmDialog({
@@ -24,7 +24,7 @@ export default function ConfirmDialog({
   title,
   message,
   confirmText = "Confirm",
-  cancelText = "Cancel"
+  cancelText = "Cancel",
 }: ConfirmDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -45,5 +45,5 @@ export default function ConfirmDialog({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

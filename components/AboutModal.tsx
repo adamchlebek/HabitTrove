@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import { Dialog, DialogContent, DialogHeader } from "./ui/dialog"
-import { Button } from "./ui/button"
-import { Star, History } from "lucide-react"
-import packageJson from '../package.json'
-import { DialogTitle } from "@radix-ui/react-dialog"
-import { Logo } from "./Logo"
-import ChangelogModal from "./ChangelogModal"
-import { useState } from "react"
+import { Dialog, DialogContent, DialogHeader } from "./ui/dialog";
+import { Button } from "./ui/button";
+import { Star, History } from "lucide-react";
+import packageJson from "../package.json";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { Logo } from "./Logo";
+import ChangelogModal from "./ChangelogModal";
+import { useState } from "react";
 
 interface AboutModalProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
-  const version = packageJson.version
-  const [changelogOpen, setChangelogOpen] = useState(false)
+  const version = packageJson.version;
+  const [changelogOpen, setChangelogOpen] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -47,7 +47,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
           <div className="space-y-4">
             <div className="text-sm">
-              Created with ❤️ by{' '}
+              Created with ❤️ by{" "}
               <a
                 href="https://github.com/dohsimpson"
                 target="_blank"
@@ -78,5 +78,5 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
         onClose={() => setChangelogOpen(false)}
       />
     </Dialog>
-  )
+  );
 }

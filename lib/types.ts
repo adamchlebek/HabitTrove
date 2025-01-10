@@ -1,21 +1,25 @@
 export type Habit = {
-  id: string
-  name: string
-  description: string
-  frequency: 'daily' | 'weekly' | 'monthly'
-  coinReward: number
-  targetCompletions?: number // Optional field, default to 1
-  completions: string[] // Array of UTC ISO date strings
-}
+  id: string;
+  name: string;
+  description: string;
+  frequency: "daily" | "weekly" | "monthly";
+  coinReward: number;
+  targetCompletions?: number; // Optional field, default to 1
+  completions: string[]; // Array of UTC ISO date strings
+};
 
 export type WishlistItemType = {
-  id: string
-  name: string
-  description: string
-  coinCost: number
-}
+  id: string;
+  name: string;
+  description: string;
+  coinCost: number;
+};
 
-export type TransactionType = 'HABIT_COMPLETION' | 'HABIT_UNDO' | 'WISH_REDEMPTION' | 'MANUAL_ADJUSTMENT';
+export type TransactionType =
+  | "HABIT_COMPLETION"
+  | "HABIT_UNDO"
+  | "WISH_REDEMPTION"
+  | "MANUAL_ADJUSTMENT";
 
 export interface CoinTransaction {
   id: string;
@@ -44,16 +48,16 @@ export interface WishlistData {
 
 // Default value functions
 export const getDefaultHabitsData = (): HabitsData => ({
-  habits: []
+  habits: [],
 });
 
 export const getDefaultCoinsData = (): CoinsData => ({
   balance: 0,
-  transactions: []
+  transactions: [],
 });
 
 export const getDefaultWishlistData = (): WishlistData => ({
-  items: []
+  items: [],
 });
 
 export const getDefaultSettings = (): Settings => ({
@@ -62,9 +66,9 @@ export const getDefaultSettings = (): Settings => ({
     useGrouping: true,
   },
   system: {
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
-  profile: {}
+  profile: {},
 });
 
 // Map of data types to their default values

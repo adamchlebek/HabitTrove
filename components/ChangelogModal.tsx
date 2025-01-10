@@ -1,27 +1,30 @@
-'use client'
+"use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
-import ReactMarkdown from 'react-markdown'
-import { useEffect, useState } from "react"
-import { getChangelog } from "@/app/actions/data"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import ReactMarkdown from "react-markdown";
+import { useEffect, useState } from "react";
+import { getChangelog } from "@/app/actions/data";
 
 interface ChangelogModalProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps) {
-  const [changelog, setChangelog] = useState<string>('')
+export default function ChangelogModal({
+  isOpen,
+  onClose,
+}: ChangelogModalProps) {
+  const [changelog, setChangelog] = useState<string>("");
 
   useEffect(() => {
     if (isOpen) {
       const loadChangelog = async () => {
-        const content = await getChangelog()
-        setChangelog(content)
-      }
-      loadChangelog()
+        const content = await getChangelog();
+        setChangelog(content);
+      };
+      loadChangelog();
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -34,5 +37,5 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

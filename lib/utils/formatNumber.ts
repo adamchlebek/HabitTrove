@@ -1,13 +1,23 @@
 import { Settings } from "../types";
 
-function formatWithLocale(amount: number, useGrouping: boolean, maximumFractionDigits?: number): string {
+function formatWithLocale(
+  amount: number,
+  useGrouping: boolean,
+  maximumFractionDigits?: number,
+): string {
   return amount.toLocaleString(undefined, {
     maximumFractionDigits,
     useGrouping,
   });
 }
 
-export function formatNumber({ amount, settings }: { amount: number, settings: Settings }): string {
+export function formatNumber({
+  amount,
+  settings,
+}: {
+  amount: number;
+  settings: Settings;
+}): string {
   const useFormatting = settings?.ui.useNumberFormatting ?? true;
   const useGrouping = settings?.ui.useGrouping ?? true;
 
@@ -22,15 +32,15 @@ export function formatNumber({ amount, settings }: { amount: number, settings: S
   }
 
   if (absNum >= 1e9) {
-    return formatWithLocale(amount / 1e9, useGrouping, 1) + 'B';
+    return formatWithLocale(amount / 1e9, useGrouping, 1) + "B";
   }
 
   if (absNum >= 1e6) {
-    return formatWithLocale(amount / 1e6, useGrouping, 1) + 'M';
+    return formatWithLocale(amount / 1e6, useGrouping, 1) + "M";
   }
 
   if (absNum >= 1e3) {
-    return formatWithLocale(amount / 1e3, useGrouping, 1) + 'K';
+    return formatWithLocale(amount / 1e3, useGrouping, 1) + "K";
   }
 
   return formatWithLocale(amount, useGrouping);

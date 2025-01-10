@@ -1,18 +1,18 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { t2d, d2s, getNow, isSameDate } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { FormattedNumber } from '@/components/FormattedNumber'
-import { History, Pencil } from 'lucide-react'
-import EmptyState from './EmptyState'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { settingsAtom } from '@/lib/atoms'
-import Link from 'next/link'
-import { useAtom } from 'jotai'
-import { useCoins } from '@/hooks/useCoins'
-import { TransactionNoteEditor } from './TransactionNoteEditor'
+import { useState } from "react";
+import { t2d, d2s, getNow, isSameDate } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { FormattedNumber } from "@/components/FormattedNumber";
+import { History, Pencil } from "lucide-react";
+import EmptyState from "./EmptyState";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { settingsAtom } from "@/lib/atoms";
+import Link from "next/link";
+import { useAtom } from "jotai";
+import { useCoins } from "@/hooks/useCoins";
+import { TransactionNoteEditor } from "./TransactionNoteEditor";
 
 export default function CoinsManager() {
   const {
@@ -25,36 +25,36 @@ export default function CoinsManager() {
     totalEarned,
     totalSpent,
     coinsSpentToday,
-    transactionsToday
-  } = useCoins()
-  const [settings] = useAtom(settingsAtom)
-  const DEFAULT_AMOUNT = '0'
-  const [amount, setAmount] = useState(DEFAULT_AMOUNT)
-  const [pageSize, setPageSize] = useState(50)
-  const [currentPage, setCurrentPage] = useState(1)
+    transactionsToday,
+  } = useCoins();
+  const [settings] = useAtom(settingsAtom);
+  const DEFAULT_AMOUNT = "0";
+  const [amount, setAmount] = useState(DEFAULT_AMOUNT);
+  const [pageSize, setPageSize] = useState(50);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [note, setNote] = useState('')
+  const [note, setNote] = useState("");
 
   const handleSaveNote = async (transactionId: string, note: string) => {
-    await updateNote(transactionId, note)
-  }
+    await updateNote(transactionId, note);
+  };
 
   const handleDeleteNote = async (transactionId: string) => {
-    await updateNote(transactionId, '')
-  }
+    await updateNote(transactionId, "");
+  };
 
   const handleAddRemoveCoins = async () => {
-    const numAmount = Number(amount)
+    const numAmount = Number(amount);
     if (numAmount > 0) {
-      await add(numAmount, "Manual addition", note)
-      setAmount(DEFAULT_AMOUNT)
-      setNote('')
+      await add(numAmount, "Manual addition", note);
+      setAmount(DEFAULT_AMOUNT);
+      setNote("");
     } else if (numAmount < 0) {
-      await remove(Math.abs(numAmount), "Manual removal", note)
-      setAmount(DEFAULT_AMOUNT)
-      setNote('')
+      await remove(Math.abs(numAmount), "Manual removal", note);
+      setAmount(DEFAULT_AMOUNT);
+      setNote("");
     }
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -64,10 +64,16 @@ export default function CoinsManager() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <span className="text-2xl animate-bounce hover:animate-none cursor-default">💰</span>
+              <span className="text-2xl animate-bounce hover:animate-none cursor-default">
+                💰
+              </span>
               <div>
-                <div className="text-sm font-normal text-muted-foreground">Current Balance</div>
-                <div className="text-3xl font-bold"><FormattedNumber amount={balance} settings={settings} /> coins</div>
+                <div className="text-sm font-normal text-muted-foreground">
+                  Current Balance
+                </div>
+                <div className="text-3xl font-bold">
+                  <FormattedNumber amount={balance} settings={settings} /> coins
+                </div>
               </div>
             </CardTitle>
           </CardHeader>
@@ -79,7 +85,9 @@ export default function CoinsManager() {
                     variant="outline"
                     size="icon"
                     className="h-10 w-10 text-lg"
-                    onClick={() => setAmount(prev => (Number(prev) - 1).toString())}
+                    onClick={() =>
+                      setAmount((prev) => (Number(prev) - 1).toString())
+                    }
                   >
                     -
                   </Button>
@@ -98,7 +106,9 @@ export default function CoinsManager() {
                     variant="outline"
                     size="icon"
                     className="h-10 w-10 text-lg"
-                    onClick={() => setAmount(prev => (Number(prev) + 1).toString())}
+                    onClick={() =>
+                      setAmount((prev) => (Number(prev) + 1).toString())
+                    }
                   >
                     +
                   </Button>
@@ -112,7 +122,7 @@ export default function CoinsManager() {
                       variant="default"
                     >
                       <div className="flex items-center gap-2">
-                        {Number(amount) >= 0 ? 'Add Coins' : 'Remove Coins'}
+                        {Number(amount) >= 0 ? "Add Coins" : "Remove Coins"}
                       </div>
                     </Button>
                   </div>
@@ -130,21 +140,28 @@ export default function CoinsManager() {
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
               {/* Top Row - Totals */}
               <div className="p-4 rounded-lg bg-green-100 dark:bg-green-900">
-                <div className="text-sm text-green-800 dark:text-green-100 mb-1">Total Earned</div>
+                <div className="text-sm text-green-800 dark:text-green-100 mb-1">
+                  Total Earned
+                </div>
                 <div className="text-2xl font-bold text-green-900 dark:text-green-50">
-                  <FormattedNumber amount={totalEarned} settings={settings} /> 🪙
+                  <FormattedNumber amount={totalEarned} settings={settings} />{" "}
+                  🪙
                 </div>
               </div>
 
               <div className="p-4 rounded-lg bg-red-100 dark:bg-red-900">
-                <div className="text-sm text-red-800 dark:text-red-100 mb-1">Total Spent</div>
+                <div className="text-sm text-red-800 dark:text-red-100 mb-1">
+                  Total Spent
+                </div>
                 <div className="text-2xl font-bold text-red-900 dark:text-red-50">
                   <FormattedNumber amount={totalSpent} settings={settings} /> 💸
                 </div>
               </div>
 
               <div className="p-4 rounded-lg bg-pink-100 dark:bg-pink-900">
-                <div className="text-sm text-pink-800 dark:text-pink-100 mb-1">Total Transactions</div>
+                <div className="text-sm text-pink-800 dark:text-pink-100 mb-1">
+                  Total Transactions
+                </div>
                 <div className="text-2xl font-bold text-pink-900 dark:text-pink-50">
                   {transactions.length} 📈
                 </div>
@@ -152,21 +169,35 @@ export default function CoinsManager() {
 
               {/* Bottom Row - Today */}
               <div className="p-4 rounded-lg bg-blue-100 dark:bg-blue-900">
-                <div className="text-sm text-blue-800 dark:text-blue-100 mb-1">Today's Earned</div>
+                <div className="text-sm text-blue-800 dark:text-blue-100 mb-1">
+                  Today's Earned
+                </div>
                 <div className="text-2xl font-bold text-blue-900 dark:text-blue-50">
-                  <FormattedNumber amount={coinsEarnedToday} settings={settings} /> 🪙
+                  <FormattedNumber
+                    amount={coinsEarnedToday}
+                    settings={settings}
+                  />{" "}
+                  🪙
                 </div>
               </div>
 
               <div className="p-4 rounded-lg bg-purple-100 dark:bg-purple-900">
-                <div className="text-sm text-purple-800 dark:text-purple-100 mb-1">Today's Spent</div>
+                <div className="text-sm text-purple-800 dark:text-purple-100 mb-1">
+                  Today's Spent
+                </div>
                 <div className="text-2xl font-bold text-purple-900 dark:text-purple-50">
-                  <FormattedNumber amount={coinsSpentToday} settings={settings} /> 💸
+                  <FormattedNumber
+                    amount={coinsSpentToday}
+                    settings={settings}
+                  />{" "}
+                  💸
                 </div>
               </div>
 
               <div className="p-4 rounded-lg bg-orange-100 dark:bg-orange-900">
-                <div className="text-sm text-orange-800 dark:text-orange-100 mb-1">Today's Transactions</div>
+                <div className="text-sm text-orange-800 dark:text-orange-100 mb-1">
+                  Today's Transactions
+                </div>
                 <div className="text-2xl font-bold text-orange-900 dark:text-orange-50">
                   {transactionsToday} 📊
                 </div>
@@ -188,8 +219,8 @@ export default function CoinsManager() {
                     className="border rounded p-1"
                     value={pageSize}
                     onChange={(e) => {
-                      setPageSize(Number(e.target.value))
-                      setCurrentPage(1) // Reset to first page when changing page size
+                      setPageSize(Number(e.target.value));
+                      setCurrentPage(1); // Reset to first page when changing page size
                     }}
                   >
                     <option value={50}>50</option>
@@ -199,7 +230,13 @@ export default function CoinsManager() {
                   <span className="text-sm text-muted-foreground">entries</span>
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Showing {Math.min((currentPage - 1) * pageSize + 1, transactions.length)} to {Math.min(currentPage * pageSize, transactions.length)} of {transactions.length} entries
+                  Showing{" "}
+                  {Math.min(
+                    (currentPage - 1) * pageSize + 1,
+                    transactions.length,
+                  )}{" "}
+                  to {Math.min(currentPage * pageSize, transactions.length)} of{" "}
+                  {transactions.length} entries
                 </div>
               </div>
 
@@ -216,18 +253,18 @@ export default function CoinsManager() {
                     .map((transaction) => {
                       const getBadgeStyles = () => {
                         switch (transaction.type) {
-                          case 'HABIT_COMPLETION':
-                            return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
-                          case 'HABIT_UNDO':
-                            return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100'
-                          case 'WISH_REDEMPTION':
-                            return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100'
-                          case 'MANUAL_ADJUSTMENT':
-                            return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100'
+                          case "HABIT_COMPLETION":
+                            return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100";
+                          case "HABIT_UNDO":
+                            return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100";
+                          case "WISH_REDEMPTION":
+                            return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100";
+                          case "MANUAL_ADJUSTMENT":
+                            return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100";
                           default:
-                            return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100'
+                            return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100";
                         }
-                      }
+                      };
 
                       return (
                         <div
@@ -238,23 +275,31 @@ export default function CoinsManager() {
                             <div className="flex items-center gap-2">
                               {transaction.relatedItemId ? (
                                 <Link
-                                  href={`${transaction.type === 'WISH_REDEMPTION' ? '/wishlist' : '/habits'}?highlight=${transaction.relatedItemId}`}
+                                  href={`${transaction.type === "WISH_REDEMPTION" ? "/wishlist" : "/habits"}?highlight=${transaction.relatedItemId}`}
                                   className="font-medium hover:underline"
                                   scroll={true}
                                 >
                                   {transaction.description}
                                 </Link>
                               ) : (
-                                <p className="font-medium">{transaction.description}</p>
+                                <p className="font-medium">
+                                  {transaction.description}
+                                </p>
                               )}
                               <span
                                 className={`text-xs px-2 py-1 rounded-full ${getBadgeStyles()}`}
                               >
-                                {transaction.type.split('_').join(' ')}
+                                {transaction.type.split("_").join(" ")}
                               </span>
                             </div>
                             <p className="text-sm text-gray-500">
-                              {d2s({ dateTime: t2d({ timestamp: transaction.timestamp, timezone: settings.system.timezone }), timezone: settings.system.timezone })}
+                              {d2s({
+                                dateTime: t2d({
+                                  timestamp: transaction.timestamp,
+                                  timezone: settings.system.timezone,
+                                }),
+                                timezone: settings.system.timezone,
+                              })}
                             </p>
                             <TransactionNoteEditor
                               transactionId={transaction.id}
@@ -264,15 +309,17 @@ export default function CoinsManager() {
                             />
                           </div>
                           <span
-                            className={`font-mono ${transaction.amount >= 0
-                              ? 'text-green-600 dark:text-green-400'
-                              : 'text-red-600 dark:text-red-400'
-                              }`}
+                            className={`font-mono ${
+                              transaction.amount >= 0
+                                ? "text-green-600 dark:text-green-400"
+                                : "text-red-600 dark:text-red-400"
+                            }`}
                           >
-                            {transaction.amount >= 0 ? '+' : ''}{transaction.amount}
+                            {transaction.amount >= 0 ? "+" : ""}
+                            {transaction.amount}
                           </span>
                         </div>
-                      )
+                      );
                     })}
 
                   <div className="flex justify-center items-center gap-4 mt-6">
@@ -288,7 +335,9 @@ export default function CoinsManager() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                        onClick={() =>
+                          setCurrentPage((prev) => Math.max(1, prev - 1))
+                        }
                         disabled={currentPage === 1}
                       >
                         ‹
@@ -297,21 +346,40 @@ export default function CoinsManager() {
                         <span className="text-sm font-medium">Page</span>
                         <span className="text-sm font-bold">{currentPage}</span>
                         <span className="text-sm font-medium">of</span>
-                        <span className="text-sm font-bold">{Math.ceil(transactions.length / pageSize)}</span>
+                        <span className="text-sm font-bold">
+                          {Math.ceil(transactions.length / pageSize)}
+                        </span>
                       </div>
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setCurrentPage(prev => Math.min(Math.ceil(transactions.length / pageSize), prev + 1))}
-                        disabled={currentPage >= Math.ceil(transactions.length / pageSize)}
+                        onClick={() =>
+                          setCurrentPage((prev) =>
+                            Math.min(
+                              Math.ceil(transactions.length / pageSize),
+                              prev + 1,
+                            ),
+                          )
+                        }
+                        disabled={
+                          currentPage >=
+                          Math.ceil(transactions.length / pageSize)
+                        }
                       >
                         ›
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setCurrentPage(Math.ceil(transactions.length / pageSize))}
-                        disabled={currentPage >= Math.ceil(transactions.length / pageSize)}
+                        onClick={() =>
+                          setCurrentPage(
+                            Math.ceil(transactions.length / pageSize),
+                          )
+                        }
+                        disabled={
+                          currentPage >=
+                          Math.ceil(transactions.length / pageSize)
+                        }
                       >
                         »
                       </Button>
@@ -323,6 +391,6 @@ export default function CoinsManager() {
           </CardContent>
         </Card>
       </div>
-    </div >
-  )
+    </div>
+  );
 }

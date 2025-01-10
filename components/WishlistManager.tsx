@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import { useState, useEffect, useRef } from 'react'
-import { useWishlist } from '@/hooks/useWishlist'
-import { Plus, Gift } from 'lucide-react'
-import EmptyState from './EmptyState'
-import { Button } from '@/components/ui/button'
-import WishlistItem from './WishlistItem'
-import AddEditWishlistItemModal from './AddEditWishlistItemModal'
-import ConfirmDialog from './ConfirmDialog'
-import { WishlistItemType } from '@/lib/types'
+import { useState, useEffect, useRef } from "react";
+import { useWishlist } from "@/hooks/useWishlist";
+import { Plus, Gift } from "lucide-react";
+import EmptyState from "./EmptyState";
+import { Button } from "@/components/ui/button";
+import WishlistItem from "./WishlistItem";
+import AddEditWishlistItemModal from "./AddEditWishlistItemModal";
+import ConfirmDialog from "./ConfirmDialog";
+import { WishlistItemType } from "@/lib/types";
 
 export default function WishlistManager() {
   const {
@@ -17,48 +17,54 @@ export default function WishlistManager() {
     deleteWishlistItem,
     redeemWishlistItem,
     canRedeem,
-    wishlistItems
-  } = useWishlist()
+    wishlistItems,
+  } = useWishlist();
 
-  const [highlightedItemId, setHighlightedItemId] = useState<string | null>(null)
-  const [recentlyRedeemedId, setRecentlyRedeemedId] = useState<string | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingItem, setEditingItem] = useState<WishlistItemType | null>(null)
-  const [deleteConfirmation, setDeleteConfirmation] = useState<{ isOpen: boolean, itemId: string | null }>({
+  const [highlightedItemId, setHighlightedItemId] = useState<string | null>(
+    null,
+  );
+  const [recentlyRedeemedId, setRecentlyRedeemedId] = useState<string | null>(
+    null,
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<WishlistItemType | null>(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState<{
+    isOpen: boolean;
+    itemId: string | null;
+  }>({
     isOpen: false,
-    itemId: null
-  })
+    itemId: null,
+  });
 
-  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({})
+  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     // Check URL for highlight parameter
-    const params = new URLSearchParams(window.location.search)
-    const highlightId = params.get('highlight')
+    const params = new URLSearchParams(window.location.search);
+    const highlightId = params.get("highlight");
     if (highlightId) {
-      setHighlightedItemId(highlightId)
+      setHighlightedItemId(highlightId);
       // Scroll the element into view after a short delay to ensure rendering
       setTimeout(() => {
-        const element = itemRefs.current[highlightId]
+        const element = itemRefs.current[highlightId];
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
         }
-      }, 100)
+      }, 100);
       // Remove highlight after animation
-      setTimeout(() => setHighlightedItemId(null), 2000)
+      setTimeout(() => setHighlightedItemId(null), 2000);
     }
-  }, [])
-
+  }, []);
 
   const handleRedeem = async (item: WishlistItemType) => {
-    const success = await redeemWishlistItem(item)
+    const success = await redeemWishlistItem(item);
     if (success) {
-      setRecentlyRedeemedId(item.id)
+      setRecentlyRedeemedId(item.id);
       setTimeout(() => {
-        setRecentlyRedeemedId(null)
-      }, 3000)
+        setRecentlyRedeemedId(null);
+      }, 3000);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -83,7 +89,7 @@ export default function WishlistManager() {
               key={item.id}
               ref={(el) => {
                 if (el) {
-                  itemRefs.current[item.id] = el
+                  itemRefs.current[item.id] = el;
                 }
               }}
             >
@@ -92,10 +98,12 @@ export default function WishlistManager() {
                 isHighlighted={item.id === highlightedItemId}
                 isRecentlyRedeemed={item.id === recentlyRedeemedId}
                 onEdit={() => {
-                  setEditingItem(item)
-                  setIsModalOpen(true)
+                  setEditingItem(item);
+                  setIsModalOpen(true);
                 }}
-                onDelete={() => setDeleteConfirmation({ isOpen: true, itemId: item.id })}
+                onDelete={() =>
+                  setDeleteConfirmation({ isOpen: true, itemId: item.id })
+                }
                 onRedeem={() => handleRedeem(item)}
                 canRedeem={canRedeem(item.coinCost)}
               />
@@ -106,17 +114,17 @@ export default function WishlistManager() {
       <AddEditWishlistItemModal
         isOpen={isModalOpen}
         onClose={() => {
-          setIsModalOpen(false)
-          setEditingItem(null)
+          setIsModalOpen(false);
+          setEditingItem(null);
         }}
         onSave={(item) => {
           if (editingItem) {
-            editWishlistItem({ ...item, id: editingItem.id })
+            editWishlistItem({ ...item, id: editingItem.id });
           } else {
-            addWishlistItem(item)
+            addWishlistItem(item);
           }
-          setIsModalOpen(false)
-          setEditingItem(null)
+          setIsModalOpen(false);
+          setEditingItem(null);
         }}
         item={editingItem}
       />
@@ -125,14 +133,14 @@ export default function WishlistManager() {
         onClose={() => setDeleteConfirmation({ isOpen: false, itemId: null })}
         onConfirm={() => {
           if (deleteConfirmation.itemId) {
-            deleteWishlistItem(deleteConfirmation.itemId)
+            deleteWishlistItem(deleteConfirmation.itemId);
           }
-          setDeleteConfirmation({ isOpen: false, itemId: null })
+          setDeleteConfirmation({ isOpen: false, itemId: null });
         }}
         title="Delete Reward"
         message="Are you sure you want to delete this reward? This action cannot be undone."
         confirmText="Delete"
       />
     </div>
-  )
+  );
 }

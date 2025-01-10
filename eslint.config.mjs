@@ -17,9 +17,9 @@ const customEslintRules = {
   rules: {
     "unused-imports/no-unused-imports": "warn",
     "@typescript-eslint/no-unused-vars": "off",
-    "react/no-unescaped-entities": 0
+    "react/no-unescaped-entities": 0,
   },
-}
+};
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),

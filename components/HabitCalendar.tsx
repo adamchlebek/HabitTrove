@@ -1,29 +1,31 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Calendar } from '@/components/ui/calendar'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { d2s, getNow, t2d, getCompletedHabitsForDate } from '@/lib/utils'
-import { useAtom } from 'jotai'
-import { habitsAtom, settingsAtom } from '@/lib/atoms'
-import { DateTime } from 'luxon'
-import Linkify from './linkify'
-import { Habit } from '@/lib/types'
+import { useState } from "react";
+import { Calendar } from "@/components/ui/calendar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { d2s, getNow, t2d, getCompletedHabitsForDate } from "@/lib/utils";
+import { useAtom } from "jotai";
+import { habitsAtom, settingsAtom } from "@/lib/atoms";
+import { DateTime } from "luxon";
+import Linkify from "./linkify";
+import { Habit } from "@/lib/types";
 
 export default function HabitCalendar() {
-  const [settings] = useAtom(settingsAtom)
-  const [selectedDate, setSelectedDate] = useState<DateTime>(getNow({ timezone: settings.system.timezone }))
-  const [habitsData] = useAtom(habitsAtom)
-  const habits = habitsData.habits
+  const [settings] = useAtom(settingsAtom);
+  const [selectedDate, setSelectedDate] = useState<DateTime>(
+    getNow({ timezone: settings.system.timezone }),
+  );
+  const [habitsData] = useAtom(habitsAtom);
+  const habits = habitsData.habits;
 
   const getHabitsForDate = (date: Date) => {
     return getCompletedHabitsForDate({
       habits,
       date: DateTime.fromJSDate(date),
-      timezone: settings.system.timezone
-    })
-  }
+      timezone: settings.system.timezone,
+    });
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -43,7 +45,7 @@ export default function HabitCalendar() {
                 completed: (date) => getHabitsForDate(date).length > 0,
               }}
               modifiersClassNames={{
-                completed: 'bg-green-100 text-green-800 font-bold',
+                completed: "bg-green-100 text-green-800 font-bold",
               }}
             />
           </CardContent>
@@ -52,9 +54,16 @@ export default function HabitCalendar() {
           <CardHeader>
             <CardTitle>
               {selectedDate ? (
-                <>Habits for {d2s({ dateTime: selectedDate, timezone: settings.system.timezone, format: "yyyy-MM-dd" })}</>
+                <>
+                  Habits for{" "}
+                  {d2s({
+                    dateTime: selectedDate,
+                    timezone: settings.system.timezone,
+                    format: "yyyy-MM-dd",
+                  })}
+                </>
               ) : (
-                'Select a date'
+                "Select a date"
               )}
             </CardTitle>
           </CardHeader>
@@ -62,9 +71,14 @@ export default function HabitCalendar() {
             {selectedDate && (
               <ul className="space-y-2">
                 {habits.map((habit) => {
-                  const isCompleted = getHabitsForDate(selectedDate.toJSDate()).some((h: Habit) => h.id === habit.id)
+                  const isCompleted = getHabitsForDate(
+                    selectedDate.toJSDate(),
+                  ).some((h: Habit) => h.id === habit.id);
                   return (
-                    <li key={habit.id} className="flex items-center justify-between">
+                    <li
+                      key={habit.id}
+                      className="flex items-center justify-between"
+                    >
                       <span>
                         <Linkify>{habit.name}</Linkify>
                       </span>
@@ -74,7 +88,7 @@ export default function HabitCalendar() {
                         <Badge variant="secondary">Not Completed</Badge>
                       )}
                     </li>
-                  )
+                  );
                 })}
               </ul>
             )}
@@ -82,6 +96,5 @@ export default function HabitCalendar() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
-

@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react"
+import { Sparkles } from "lucide-react";
 
 export function Logo() {
   return (
@@ -6,5 +6,5 @@ export function Logo() {
       <Sparkles className="h-6 w-6 text-primary" />
       <span className="font-bold text-xl">HabitTrove</span>
     </div>
-  )
+  );
 }

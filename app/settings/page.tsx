@@ -1,27 +1,26 @@
-'use client'
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Switch } from '@/components/ui/switch'
-import { Label } from '@/components/ui/label'
-import { DynamicTimeNoSSR } from '@/components/DynamicTimeNoSSR'
-import { useAtom } from 'jotai'
-import { settingsAtom } from '@/lib/atoms'
-import { Settings } from '@/lib/types'
-import { saveSettings, uploadAvatar } from '../actions/data'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { User } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { DynamicTimeNoSSR } from "@/components/DynamicTimeNoSSR";
+import { useAtom } from "jotai";
+import { settingsAtom } from "@/lib/atoms";
+import { Settings } from "@/lib/types";
+import { saveSettings, uploadAvatar } from "../actions/data";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { User } from "lucide-react";
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useAtom(settingsAtom)
+  const [settings, setSettings] = useAtom(settingsAtom);
 
   const updateSettings = async (newSettings: Settings) => {
-    await saveSettings(newSettings)
-    setSettings(newSettings)
-  }
+    await saveSettings(newSettings);
+    setSettings(newSettings);
+  };
 
-
-  if (!settings) return null
+  if (!settings) return null;
 
   return (
     <>
@@ -45,7 +44,7 @@ export default function SettingsPage() {
                 onCheckedChange={(checked) =>
                   updateSettings({
                     ...settings,
-                    ui: { ...settings.ui, useNumberFormatting: checked }
+                    ui: { ...settings.ui, useNumberFormatting: checked },
                   })
                 }
               />
@@ -64,7 +63,7 @@ export default function SettingsPage() {
                 onCheckedChange={(checked) =>
                   updateSettings({
                     ...settings,
-                    ui: { ...settings.ui, useGrouping: checked }
+                    ui: { ...settings.ui, useGrouping: checked },
                   })
                 }
               />
@@ -91,12 +90,12 @@ export default function SettingsPage() {
                   onChange={(e) =>
                     updateSettings({
                       ...settings,
-                      system: { ...settings.system, timezone: e.target.value }
+                      system: { ...settings.system, timezone: e.target.value },
                     })
                   }
                   className="w-[200px] rounded-md border border-input bg-background px-3 py-2"
                 >
-                  {Intl.supportedValuesOf('timeZone').map((tz) => (
+                  {Intl.supportedValuesOf("timeZone").map((tz) => (
                     <option key={tz} value={tz}>
                       {tz}
                     </option>
@@ -121,15 +120,23 @@ export default function SettingsPage() {
               </div>
               <div className="flex items-center gap-4">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage src={settings.profile?.avatarPath ? `/api/avatars/${settings.profile.avatarPath.split('/').pop()}` : '/avatars/default.png'} />
+                  <AvatarImage
+                    src={
+                      settings.profile?.avatarPath
+                        ? `/api/avatars/${settings.profile.avatarPath.split("/").pop()}`
+                        : "/avatars/default.png"
+                    }
+                  />
                   <AvatarFallback>
                     <User className="h-8 w-8" />
                   </AvatarFallback>
                 </Avatar>
-                <form action={async (formData: FormData) => {
-                  const newSettings = await uploadAvatar(formData)
-                  setSettings(newSettings)
-                }}>
+                <form
+                  action={async (formData: FormData) => {
+                    const newSettings = await uploadAvatar(formData);
+                    setSettings(newSettings);
+                  }}
+                >
                   <input
                     type="file"
                     id="avatar"
@@ -137,22 +144,23 @@ export default function SettingsPage() {
                     accept="image/png, image/jpeg"
                     className="hidden"
                     onChange={(e) => {
-                      const file = e.target.files?.[0]
+                      const file = e.target.files?.[0];
                       if (file) {
-                        if (file.size > 5 * 1024 * 1024) { // 5MB
-                          alert('File size must be less than 5MB')
-                          e.target.value = ''
-                          return
+                        if (file.size > 5 * 1024 * 1024) {
+                          // 5MB
+                          alert("File size must be less than 5MB");
+                          e.target.value = "";
+                          return;
                         }
-                        const form = e.target.form
-                        if (form) form.requestSubmit()
+                        const form = e.target.form;
+                        if (form) form.requestSubmit();
                       }
                     }}
                   />
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => document.getElementById('avatar')?.click()}
+                    onClick={() => document.getElementById("avatar")?.click()}
                   >
                     Change
                   </Button>
@@ -163,5 +171,5 @@ export default function SettingsPage() {
         </Card>
       </div>
     </>
-  )
+  );
 }

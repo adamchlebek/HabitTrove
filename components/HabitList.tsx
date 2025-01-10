@@ -1,29 +1,31 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Plus, ListTodo } from 'lucide-react'
-import { useAtom } from 'jotai'
-import { habitsAtom, settingsAtom } from '@/lib/atoms'
-import EmptyState from './EmptyState'
-import { Button } from '@/components/ui/button'
-import HabitItem from './HabitItem'
-import AddEditHabitModal from './AddEditHabitModal'
-import ConfirmDialog from './ConfirmDialog'
-import { Habit } from '@/lib/types'
-import { useHabits } from '@/hooks/useHabits'
+import { useState } from "react";
+import { Plus, ListTodo } from "lucide-react";
+import { useAtom } from "jotai";
+import { habitsAtom, settingsAtom } from "@/lib/atoms";
+import EmptyState from "./EmptyState";
+import { Button } from "@/components/ui/button";
+import HabitItem from "./HabitItem";
+import AddEditHabitModal from "./AddEditHabitModal";
+import ConfirmDialog from "./ConfirmDialog";
+import { Habit } from "@/lib/types";
+import { useHabits } from "@/hooks/useHabits";
 
 export default function HabitList() {
-  const { saveHabit, deleteHabit } = useHabits()
-  const [habitsData, setHabitsData] = useAtom(habitsAtom)
-  const habits = habitsData.habits
-  const [settings] = useAtom(settingsAtom)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingHabit, setEditingHabit] = useState<Habit | null>(null)
-  const [deleteConfirmation, setDeleteConfirmation] = useState<{ isOpen: boolean, habitId: string | null }>({
+  const { saveHabit, deleteHabit } = useHabits();
+  const [habitsData, setHabitsData] = useAtom(habitsAtom);
+  const habits = habitsData.habits;
+  const [settings] = useAtom(settingsAtom);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState<{
+    isOpen: boolean;
+    habitId: string | null;
+  }>({
     isOpen: false,
-    habitId: null
-  })
-
+    habitId: null,
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -48,10 +50,12 @@ export default function HabitList() {
               key={habit.id}
               habit={habit}
               onEdit={() => {
-                setEditingHabit(habit)
-                setIsModalOpen(true)
+                setEditingHabit(habit);
+                setIsModalOpen(true);
               }}
-              onDelete={() => setDeleteConfirmation({ isOpen: true, habitId: habit.id })}
+              onDelete={() =>
+                setDeleteConfirmation({ isOpen: true, habitId: habit.id })
+              }
             />
           ))
         )}
@@ -59,13 +63,13 @@ export default function HabitList() {
       <AddEditHabitModal
         isOpen={isModalOpen}
         onClose={() => {
-          setIsModalOpen(false)
-          setEditingHabit(null)
+          setIsModalOpen(false);
+          setEditingHabit(null);
         }}
         onSave={async (habit) => {
-          await saveHabit({ ...habit, id: editingHabit?.id })
-          setIsModalOpen(false)
-          setEditingHabit(null)
+          await saveHabit({ ...habit, id: editingHabit?.id });
+          setIsModalOpen(false);
+          setEditingHabit(null);
         }}
         habit={editingHabit}
       />
@@ -74,15 +78,14 @@ export default function HabitList() {
         onClose={() => setDeleteConfirmation({ isOpen: false, habitId: null })}
         onConfirm={async () => {
           if (deleteConfirmation.habitId) {
-            await deleteHabit(deleteConfirmation.habitId)
+            await deleteHabit(deleteConfirmation.habitId);
           }
-          setDeleteConfirmation({ isOpen: false, habitId: null })
+          setDeleteConfirmation({ isOpen: false, habitId: null });
         }}
         title="Delete Habit"
         message="Are you sure you want to delete this habit? This action cannot be undone."
         confirmText="Delete"
       />
     </div>
-  )
+  );
 }
-

@@ -1,49 +1,64 @@
-import { useState, useEffect } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { SmilePlus } from 'lucide-react'
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
-import { WishlistItemType } from '@/lib/types'
+import { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { SmilePlus } from "lucide-react";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { WishlistItemType } from "@/lib/types";
 
 interface AddEditWishlistItemModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onSave: (item: Omit<WishlistItemType, 'id'>) => void
-  item?: WishlistItemType | null
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (item: Omit<WishlistItemType, "id">) => void;
+  item?: WishlistItemType | null;
 }
 
-export default function AddEditWishlistItemModal({ isOpen, onClose, onSave, item }: AddEditWishlistItemModalProps) {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [coinCost, setCoinCost] = useState(1)
+export default function AddEditWishlistItemModal({
+  isOpen,
+  onClose,
+  onSave,
+  item,
+}: AddEditWishlistItemModalProps) {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [coinCost, setCoinCost] = useState(1);
 
   useEffect(() => {
     if (item) {
-      setName(item.name)
-      setDescription(item.description)
-      setCoinCost(item.coinCost)
+      setName(item.name);
+      setDescription(item.description);
+      setCoinCost(item.coinCost);
     } else {
-      setName('')
-      setDescription('')
-      setCoinCost(1)
+      setName("");
+      setDescription("");
+      setCoinCost(1);
     }
-  }, [item])
+  }, [item]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSave({ name, description, coinCost })
-  }
+    e.preventDefault();
+    onSave({ name, description, coinCost });
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{item ? 'Edit Reward' : 'Add New Reward'}</DialogTitle>
+          <DialogTitle>{item ? "Edit Reward" : "Add New Reward"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
@@ -74,10 +89,12 @@ export default function AddEditWishlistItemModal({ isOpen, onClose, onSave, item
                     <Picker
                       data={data}
                       onEmojiSelect={(emoji: { native: string }) => {
-                        setName(prev => `${prev}${emoji.native}`)
+                        setName((prev) => `${prev}${emoji.native}`);
                         // Focus back on input after selection
-                        const input = document.getElementById('name') as HTMLInputElement
-                        input?.focus()
+                        const input = document.getElementById(
+                          "name",
+                        ) as HTMLInputElement;
+                        input?.focus();
                       }}
                     />
                   </PopoverContent>
@@ -103,7 +120,11 @@ export default function AddEditWishlistItemModal({ isOpen, onClose, onSave, item
                 id="coinCost"
                 type="number"
                 value={coinCost}
-                onChange={(e) => setCoinCost(parseInt(e.target.value === "" ? "0" : e.target.value))}
+                onChange={(e) =>
+                  setCoinCost(
+                    parseInt(e.target.value === "" ? "0" : e.target.value),
+                  )
+                }
                 className="col-span-3"
                 min={1}
                 required
@@ -111,11 +132,12 @@ export default function AddEditWishlistItemModal({ isOpen, onClose, onSave, item
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">{item ? 'Save Changes' : 'Add Reward'}</Button>
+            <Button type="submit">
+              {item ? "Save Changes" : "Add Reward"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-
